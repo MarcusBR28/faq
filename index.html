@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FAQ Keyword Search</title>
+  <title>FAQ — Busca por Keywords</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header class="header">
     <div class="container">
-      <h1>FAQ Keyword Search</h1>
-      <p class="subtitle">Busque por palavras-chave em <b>Question(s)</b> e <b>Answer Display</b>. O resultado apresenta: FAQ#, Consolidated Question, Answer Display e Procedure.</p>
+      <h1>FAQ — Busca por palavras-chave</h1>
+      <p class="subtitle">A busca considera apenas <strong>Keywords</strong> geradas e o <strong>Consolidated Question</strong>. O usuário não vê esses campos diretamente.</p>
       <div class="search-row">
-        <input id="query" type="text" placeholder="Digite palavras-chave (ex.: 'tier 1 erro login')" autocomplete="off" />
+        <input id="query" type="text" placeholder="Digite palavras-chave (ex.: login erro casino)" autocomplete="off" />
         <button id="clearBtn" title="Limpar busca">Limpar</button>
       </div>
       <div class="tips">
-        <span>Dica: use várias palavras. Encontramos resultados se <em>qualquer</em> palavra aparecer em Question(s) ou Answer.</span>
+        <span>Dica: use várias palavras separadas por espaço. A busca encontra FAQs se qualquer palavra ocorrer nas keywords ou no consolidated question.</span>
       </div>
     </div>
   </header>
@@ -28,7 +28,7 @@
 
   <footer class="footer">
     <div class="container small">
-      <p>Interface estática — basta hospedar estes arquivos. <a href="README.md" target="_blank" rel="noopener">Leia o passo-a-passo</a>.</p>
+      <p>Site estático — carregar via servidor HTTP. <a href="README.md" target="_blank">Guia de deploy</a>.</p>
     </div>
   </footer>
 
