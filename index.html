@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FAQ Keyword Search</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <h1>FAQ Keyword Search</h1>
+      <p class="subtitle">Busque por palavras-chave em <b>Question(s)</b> e <b>Answer Display</b>. O resultado apresenta: FAQ#, Consolidated Question, Answer Display e Procedure.</p>
+      <div class="search-row">
+        <input id="query" type="text" placeholder="Digite palavras-chave (ex.: 'tier 1 erro login')" autocomplete="off" />
+        <button id="clearBtn" title="Limpar busca">Limpar</button>
+      </div>
+      <div class="tips">
+        <span>Dica: use várias palavras. Encontramos resultados se <em>qualquer</em> palavra aparecer em Question(s) ou Answer.</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="stats" class="stats">Carregando...</div>
+    <div id="results" class="grid"></div>
+  </main>
+
+  <footer class="footer">
+    <div class="container small">
+      <p>Interface estática — basta hospedar estes arquivos. <a href="README.md" target="_blank" rel="noopener">Leia o passo-a-passo</a>.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
