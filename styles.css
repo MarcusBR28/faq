@@ -1,4 +1,4 @@
-/* Sunset theme: roxo + laranja, 1 coluna */
+/* Sunset theme v2 */
 :root{
   --bg-top:#1a1029;
   --bg-bot:#3b163e;
@@ -42,8 +42,18 @@ h1{margin:6px 0 2px;font-size:26px;letter-spacing:.2px}
 .kv{display:grid;grid-template-columns:1fr;gap:6px;margin:6px 0}
 .key{color:var(--muted);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.6px}
 .val{color:var(--text)}
-.answer-block{padding:10px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid var(--border)}
-.segment{padding:10px 12px;border-radius:12px;margin-bottom:8px}
+.answer-block{
+  padding:14px;
+  border-radius:16px;
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  line-height:1.5;
+  text-align:justify;
+}
+.segment{padding:10px 12px;border-radius:12px}
 .segment.x{background:var(--softX);color:#3d1900;border:1px solid rgba(245,158,11,.25)}
 .segment.y{background:var(--softY);color:#2b1047;border:1px solid rgba(168,85,247,.25)}
 .empty{color:var(--muted);font-style:italic}

@@ -23,24 +23,22 @@ function isBulletLine(line){
   const s = line.trim();
   if(!s) return false;
   const patterns = [
-    /^[-*•–]\s+/,          // -, *, •, –
-    /^\d+\.\s+/,           // 1.
-    /^step\s*\d*[:\-]?\s*/i,
-    /^tier\s*\d*[:\-]?\s*/i,
-    /^if\b/i
+    /^[-*•–]\s+/,          
+    /^\d+\.\\s+/,          
+    /^step\\s*\\d*[:\\-]?\\s*/i,
+    /^tier\\s*\\d*[:\\-]?\\s*/i,
+    /^if\\b/i
   ];
   return patterns.some(rx => rx.test(s));
 }
 
-function extractBulletSegments(answer){
-  const lines = (answer || "").split(/\\r?\\n/).map(l=>l.trim());
-  const segs = [];
-  for(const line of lines){
-    if(isBulletLine(line)){
-      segs.push(line);
-    }
+function extractSegments(answer){
+  const lines = (answer || "").split(/\\r?\\n/).map(l=>l.trim()).filter(Boolean);
+  if(lines.some(isBulletLine)){
+    return lines.map((line,i)=>({text:line, type:(isBulletLine(line)? (i%2===0?"x":"y"):"")}));
+  } else {
+    return [{text:lines.join(" "), type:""}];
   }
-  return segs;
 }
 
 function render(list, terms){
@@ -67,17 +65,14 @@ function render(list, terms){
     const valDiv = document.createElement("div");
     valDiv.className = "val answer-block";
 
-    const bullets = extractBulletSegments(faq["Answer Display"]||"");
-    if(bullets.length > 0){
-      bullets.forEach((s,i)=>{
-        const d = document.createElement("div");
-        d.className = "segment " + (i % 2 === 0 ? "x":"y");
-        d.innerHTML = highlight(s, terms);
-        valDiv.appendChild(d);
-      });
-    }else{
-      valDiv.innerHTML = highlight((faq["Answer Display"]||"").trim(), terms) || '<div class="empty">Sem Answer Display</div>';
-    }
+    const segs = extractSegments(faq["Answer Display"]||"");
+    segs.forEach(seg=>{
+      const d = document.createElement("div");
+      d.className = seg.type ? `segment ${seg.type}` : "segment";
+      d.innerHTML = highlight(seg.text, terms);
+      valDiv.appendChild(d);
+    });
+
     ansWrap.innerHTML = `<div class="key">Answer Display</div>`;
     ansWrap.appendChild(valDiv);
     card.appendChild(ansWrap);
