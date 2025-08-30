@@ -1,4 +1,3 @@
-// Busca que considera apenas 'Keywords' e 'Consolidated Question' do arquivo faq_keywords.json
 let ALL_FAQS = [];
 
 const $ = (s) => document.querySelector(s);
@@ -20,37 +19,68 @@ function highlight(text, terms){
   return out;
 }
 
+function isBulletLine(line){
+  const s = line.trim();
+  if(!s) return false;
+  const patterns = [
+    /^[-*•–]\s+/,          // -, *, •, –
+    /^\d+\.\s+/,           // 1.
+    /^step\s*\d*[:\-]?\s*/i,
+    /^tier\s*\d*[:\-]?\s*/i,
+    /^if\b/i
+  ];
+  return patterns.some(rx => rx.test(s));
+}
+
+function extractBulletSegments(answer){
+  const lines = (answer || "").split(/\\r?\\n/).map(l=>l.trim());
+  const segs = [];
+  for(const line of lines){
+    if(isBulletLine(line)){
+      segs.push(line);
+    }
+  }
+  return segs;
+}
+
 function render(list, terms){
   const results = $("#results");
   const stats = $("#stats");
   results.innerHTML = "";
   stats.textContent = `${list.length} resultado(s)`;
-  list.forEach((faq, idx)=>{
+  list.forEach((faq)=>{
     const card = document.createElement("article");
     card.className = "card";
-    const b = document.createElement("div"); b.className="badge"; b.textContent = `FAQ #${faq["FAQ#"]}`;
-    card.appendChild(b);
 
-    const kv1 = document.createElement("div"); kv1.className="kv";
-    kv1.innerHTML = `<div class="key">Consolidated Question</div><div class="val">${highlight(faq["Consolidated Question"]||"", terms)}</div>`;
-    card.appendChild(kv1);
+    const badge = document.createElement("div");
+    badge.className = "badge";
+    badge.textContent = `FAQ ${faq["FAQ#"]}`;
+    card.appendChild(badge);
 
-    const ans = document.createElement("div"); ans.className="kv";
-    const seg = (faq["Answer Display"]||"").split(/\n/).map(s=>s.trim()).filter(Boolean);
-    const valDiv = document.createElement("div"); valDiv.className="val answer-block";
-    if(seg.length>1){
-      seg.forEach((s,i)=>{
+    const cq = document.createElement("div");
+    cq.className = "kv";
+    cq.innerHTML = `<div class="key">Consolidated Question</div><div class="val">${highlight(faq["Consolidated Question"]||"", terms)}</div>`;
+    card.appendChild(cq);
+
+    const ansWrap = document.createElement("div");
+    ansWrap.className = "kv";
+    const valDiv = document.createElement("div");
+    valDiv.className = "val answer-block";
+
+    const bullets = extractBulletSegments(faq["Answer Display"]||"");
+    if(bullets.length > 0){
+      bullets.forEach((s,i)=>{
         const d = document.createElement("div");
-        d.className = "segment " + (i%2===0 ? "toneA":"toneB");
+        d.className = "segment " + (i % 2 === 0 ? "x":"y");
         d.innerHTML = highlight(s, terms);
         valDiv.appendChild(d);
       });
     }else{
-      valDiv.innerHTML = highlight(faq["Answer Display"]||"", terms) || '<div class="empty">Sem Answer Display</div>';
+      valDiv.innerHTML = highlight((faq["Answer Display"]||"").trim(), terms) || '<div class="empty">Sem Answer Display</div>';
     }
-    ans.innerHTML = `<div class="key">Answer Display</div>`;
-    ans.appendChild(valDiv);
-    card.appendChild(ans);
+    ansWrap.innerHTML = `<div class="key">Answer Display</div>`;
+    ansWrap.appendChild(valDiv);
+    card.appendChild(ansWrap);
 
     if(faq["Procedure"] && faq["Procedure"].trim()!==""){
       const kvp = document.createElement("div"); kvp.className="kv";
@@ -72,10 +102,11 @@ async function main(){
   function apply(){
     const q = input.value.trim();
     if(!q){
-      render(ALL_FAQS, []);
+      const base = [...ALL_FAQS].sort((a,b)=> (a["FAQ#"]||0) - (b["FAQ#"]||0));
+      render(base, []);
       return;
     }
-    const terms = q.split(/\s+/).map(t=>normalize(t)).filter(Boolean);
+    const terms = q.split(/\\s+/).map(t=>normalize(t)).filter(Boolean);
 
     const filtered = ALL_FAQS.filter(faq=>{
       const consolidated = normalize(faq["Consolidated Question"] || "");
@@ -91,7 +122,8 @@ async function main(){
   input.addEventListener("input", apply);
   clear.addEventListener("click", ()=>{ input.value=""; apply(); });
 
-  render(ALL_FAQS, []);
+  const base = [...ALL_FAQS].sort((a,b)=> (a["FAQ#"]||0) - (b["FAQ#"]||0));
+  render(base, []);
 }
 
 main();

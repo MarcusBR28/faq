@@ -3,32 +3,29 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FAQ — Busca por Keywords</title>
+  <title>FAQ — Sunset Search</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header class="header">
     <div class="container">
-      <h1>FAQ — Busca por palavras-chave</h1>
-      <p class="subtitle">A busca considera apenas <strong>Keywords</strong> geradas e o <strong>Consolidated Question</strong>. O usuário não vê esses campos diretamente.</p>
+      <h1>FAQ — Sunset Search</h1>
+      <p class="subtitle">Busca por <strong>Keywords</strong> originais do sports.html e <strong>Consolidated Question</strong>. Visual 100% responsivo, 1 coluna.</p>
       <div class="search-row">
-        <input id="query" type="text" placeholder="Digite palavras-chave (ex.: login erro casino)" autocomplete="off" />
+        <input id="query" type="text" placeholder="Digite palavras-chave..." autocomplete="off" />
         <button id="clearBtn" title="Limpar busca">Limpar</button>
-      </div>
-      <div class="tips">
-        <span>Dica: use várias palavras separadas por espaço. A busca encontra FAQs se qualquer palavra ocorrer nas keywords ou no consolidated question.</span>
       </div>
     </div>
   </header>
 
   <main class="container">
     <div id="stats" class="stats">Carregando...</div>
-    <div id="results" class="grid"></div>
+    <section id="results" class="stack"></section>
   </main>
 
   <footer class="footer">
     <div class="container small">
-      <p>Site estático — carregar via servidor HTTP. <a href="README.md" target="_blank">Guia de deploy</a>.</p>
+      <p>Site estático. Veja <a href="README.md" target="_blank">README</a> para publicar no GitHub Pages.</p>
     </div>
   </footer>
 
